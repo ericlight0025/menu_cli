@@ -1,0 +1,23 @@
+{
+  "label": "自訂",
+  "ansi": {
+    "title": "\u001b[93m",
+    "path": "\u001b[97m",
+    "hint": "\u001b[90m",
+    "reset": "\u001b[0m"
+  },
+  "prompt": {
+    "questionmark": "#ffd700 bold",
+    "answermark": "#00d7af",
+    "answer": "#00d7af bold",
+    "input": "#ffffff",
+    "question": "#ffd700 bold",
+    "instruction": "#808080 italic",
+    "fuzzy_prompt": "#ffd700 bold",
+    "fuzzy_info": "#808080 italic",
+    "fuzzy_border": "#666666",
+    "fuzzy_match": "#ff5f87 bold underline",
+    "marker": "#ffd700",
+    "pointer": "#ff5f87 bold"
+  }
+}

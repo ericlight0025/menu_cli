@@ -1,0 +1,10 @@
+{
+  "theme": "dark",
+  "hotkey_style": "classic",
+  "hotkey_back_keys": [
+    "alt-left"
+  ],
+  "hotkey_forward_keys": [
+    "alt-right"
+  ]
+}

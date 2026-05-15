@@ -1,0 +1,31 @@
+path,name,kind,action
+首頁,📘  功能說明,action,"{""type"":""about""}"
+首頁,📥  CSV 匯入,group,
+首頁/📥  CSV 匯入,📄  預覽 CSV,action,"{""type"":""csv_preview""}"
+首頁/📥  CSV 匯入,📥  匯入 CSV,action,"{""type"":""csv_import""}"
+首頁/📥  CSV 匯入,📋  下載範本,action,"{""type"":""csv_template""}"
+首頁/📥  CSV 匯入,📤  匯出目前內容,action,"{""type"":""csv_export""}"
+首頁,🎛️  樣式切換,group,
+首頁/🎛️  樣式切換,🌑  深色,action,"{""type"":""theme"",""theme"":""dark""}"
+首頁/🎛️  樣式切換,🌕  淺色,action,"{""type"":""theme"",""theme"":""light""}"
+首頁/🎛️  樣式切換,🟣  霓虹,action,"{""type"":""theme"",""theme"":""neon""}"
+首頁/🎛️  樣式切換,✍️  自訂配色檔,action,"{""type"":""theme"",""theme"":""custom""}"
+首頁/🎛️  樣式切換,📄  開啟配色檔,action,"{""type"":""style_file""}"
+首頁,📁  開發工具,group,
+首頁/📁  開發工具,🐍  啟動主程式,action,"{""type"":""py"",""path"":""main.py""}"
+首頁/📁  開發工具,🔧  安裝腳本,action,"{""type"":""bat"",""path"":""setup.bat""}"
+首頁/📁  開發工具,☕  執行 Jar,action,"{""type"":""jar"",""path"":""app.jar""}"
+首頁/📁  開發工具,🖥️  執行腳本2,action,"{""type"":""py"",""path"":""tool.py""}"
+首頁,🌐  常用網址,group,
+首頁/🌐  常用網址,📖  官方文件,action,"{""type"":""url"",""url"":""https://docs.example.com""}"
+首頁/🌐  常用網址,🔍  Google,action,"{""type"":""url"",""url"":""https://google.com""}"
+首頁/🌐  常用網址,🐙  GitHub,action,"{""type"":""url"",""url"":""https://github.com""}"
+首頁,⚙️  系統設定,group,
+首頁/⚙️  系統設定,🎨  主題設定,action,"{""type"":""py"",""path"":""theme.py""}"
+首頁/⚙️  系統設定,⌨️  快速鍵樣式,action,"{""type"":""hotkey_style""}"
+首頁/⚙️  系統設定,⚡  快速鍵修改,action,"{""type"":""hotkey_modify""}"
+首頁/⚙️  系統設定,🔑  金鑰管理,action,"{""type"":""py"",""path"":""keys.py""}"
+首頁/⚙️  系統設定,📝  編輯選單資料（Ctrl+S）,action,"{""type"":""edit_menu""}"
+首頁/⚙️  系統設定,📥  CSV 匯入,action,
+首頁,📋  快速筆記,action,"{""type"":""py"",""path"":""note.py""}"
+首頁,🚪  離開,action,"{""type"":""exit""}"

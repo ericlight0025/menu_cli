@@ -1,0 +1,188 @@
+{
+  "name": "首頁",
+  "children": [
+    {
+      "name": "📘  功能說明",
+      "action": {
+        "type": "about"
+      }
+    },
+    {
+      "name": "📥  CSV 匯入",
+      "children": [
+        {
+          "name": "📄  預覽 CSV",
+          "action": {
+            "type": "csv_preview"
+          }
+        },
+        {
+          "name": "📥  匯入 CSV",
+          "action": {
+            "type": "csv_import"
+          }
+        },
+        {
+          "name": "📋  下載範本",
+          "action": {
+            "type": "csv_template"
+          }
+        },
+        {
+          "name": "📤  匯出目前內容",
+          "action": {
+            "type": "csv_export"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🎛️  樣式切換",
+      "children": [
+        {
+          "name": "🌑  深色",
+          "action": {
+            "type": "theme",
+            "theme": "dark"
+          }
+        },
+        {
+          "name": "🌕  淺色",
+          "action": {
+            "type": "theme",
+            "theme": "light"
+          }
+        },
+        {
+          "name": "🟣  霓虹",
+          "action": {
+            "type": "theme",
+            "theme": "neon"
+          }
+        },
+        {
+          "name": "✍️  自訂配色檔",
+          "action": {
+            "type": "theme",
+            "theme": "custom"
+          }
+        },
+        {
+          "name": "📄  開啟配色檔",
+          "action": {
+            "type": "style_file"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📁  開發工具",
+      "children": [
+        {
+          "name": "🐍  啟動主程式",
+          "action": {
+            "type": "py",
+            "path": "main.py"
+          }
+        },
+        {
+          "name": "🔧  安裝腳本",
+          "action": {
+            "type": "bat",
+            "path": "setup.bat"
+          }
+        },
+        {
+          "name": "☕  執行 Jar",
+          "action": {
+            "type": "jar",
+            "path": "app.jar"
+          }
+        },
+        {
+          "name": "🖥️  執行腳本2",
+          "action": {
+            "type": "py",
+            "path": "tool.py"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🌐  常用網址",
+      "children": [
+        {
+          "name": "📖  官方文件",
+          "action": {
+            "type": "url",
+            "url": "https://docs.example.com"
+          }
+        },
+        {
+          "name": "🔍  Google",
+          "action": {
+            "type": "url",
+            "url": "https://google.com"
+          }
+        },
+        {
+          "name": "🐙  GitHub",
+          "action": {
+            "type": "url",
+            "url": "https://github.com"
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚙️  系統設定",
+      "children": [
+        {
+          "name": "🎨  主題設定",
+          "action": {
+            "type": "py",
+            "path": "theme.py"
+          }
+        },
+        {
+          "name": "⌨️  快速鍵樣式",
+          "action": {
+            "type": "hotkey_style"
+          }
+        },
+        {
+          "name": "⚡  快速鍵修改",
+          "action": {
+            "type": "hotkey_modify"
+          }
+        },
+        {
+          "name": "🔑  金鑰管理",
+          "action": {
+            "type": "py",
+            "path": "keys.py"
+          }
+        },
+        {
+          "name": "📝  編輯選單資料（Ctrl+S）",
+          "action": {
+            "type": "edit_menu"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋  快速筆記",
+      "action": {
+        "type": "py",
+        "path": "note.py"
+      }
+    },
+    {
+      "name": "🚪  離開",
+      "action": {
+        "type": "exit"
+      }
+    }
+  ]
+}
