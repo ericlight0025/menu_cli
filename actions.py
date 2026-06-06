@@ -110,12 +110,11 @@ def import_csv_menu() -> None:
 
 def download_csv_template() -> None:
     template_path = write_csv_template_from_menu()
-    CSV_IMPORT_FILE.write_text(template_path.read_text(encoding="utf-8"), encoding="utf-8")
     if hasattr(os, "startfile"):
-        os.startfile(str(CSV_IMPORT_FILE))
+        os.startfile(str(template_path))
     else:
-        webbrowser.open(CSV_IMPORT_FILE.as_uri())
-    _info(f"已產生 CSV 範本：{CSV_IMPORT_FILE}")
+        webbrowser.open(template_path.as_uri())
+    _info(f"已產生 CSV 範本：{template_path}")
 
 
 def export_current_menu_csv() -> None:

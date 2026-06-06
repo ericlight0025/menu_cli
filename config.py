@@ -45,20 +45,30 @@ def save_settings(settings: dict) -> None:
 
 
 def load_settings() -> dict:
-    settings = {**DEFAULT_SETTINGS, **_read_json(SETTINGS_FILE, DEFAULT_SETTINGS)}
+    on_disk = _read_json(SETTINGS_FILE, {})
+    settings = {**DEFAULT_SETTINGS, **on_disk}
+    changed = not SETTINGS_FILE.exists()
+
     if settings.get("theme") not in VALID_THEME_NAMES:
         settings["theme"] = DEFAULT_SETTINGS["theme"]
+        changed = True
     if settings.get("hotkey_style") not in VALID_HOTKEY_STYLES:
         settings["hotkey_style"] = DEFAULT_SETTINGS["hotkey_style"]
+        changed = True
 
     profile = settings.get("hotkey_profile")
     if not isinstance(settings.get("hotkey_back_keys"), list):
         preset = HOTKEY_PRESETS.get(profile, HOTKEY_PRESETS["arrows"])
         settings["hotkey_back_keys"] = list(preset["back"])
+        changed = True
     if not isinstance(settings.get("hotkey_forward_keys"), list):
         preset = HOTKEY_PRESETS.get(profile, HOTKEY_PRESETS["arrows"])
         settings["hotkey_forward_keys"] = list(preset["forward"])
+        changed = True
 
-    settings.pop("hotkey_profile", None)
-    save_settings(settings)
+    if settings.pop("hotkey_profile", None) is not None:
+        changed = True
+
+    if changed:
+        save_settings(settings)
     return settings

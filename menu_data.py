@@ -92,9 +92,10 @@ def load_menu_data() -> dict:
         data = json.loads(MENU_DATA_FILE.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
             raise ValueError("menu data must be a JSON object")
-        data = _normalize_legacy_actions(data)
-        save_menu_data(data)
-        return data
+        normalized = _normalize_legacy_actions(data)
+        if normalized != data:
+            save_menu_data(normalized)
+        return normalized
     except Exception:
         return dict(DEFAULT_MENU_DATA)
 

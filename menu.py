@@ -19,21 +19,24 @@ def _menu_label(node: dict) -> str:
     return node["name"]
 
 
+_DATA_MUTATING_ACTIONS = {"edit_menu", "csv_import"}
+
+
 def run() -> None:
     state = MenuState()
     history: list[list[str]] = []
     future: list[list[str]] = []
-    current_path = [load_menu_data().get("name", DEFAULT_MENU_DATA["name"])]
+    root = load_menu_data()
+    current_path = [root.get("name", DEFAULT_MENU_DATA["name"])]
 
     def reset_to_root() -> None:
-        root_name = load_menu_data().get("name", DEFAULT_MENU_DATA["name"])
-        current_path[:] = [root_name]
+        nonlocal root
+        root = load_menu_data()
+        current_path[:] = [root["name"]]
         history.clear()
         future.clear()
 
     while True:
-        root = load_menu_data()
-        current_path[0] = root["name"]
         current_node = resolve_node(root, current_path)
         breadcrumb = current_path[:]
         children = current_node.get("children", [])
@@ -41,7 +44,7 @@ def run() -> None:
             action = current_node["action"]
             if execute_action(action, state):
                 break
-            if action.get("type") == "edit_menu":
+            if action.get("type") in _DATA_MUTATING_ACTIONS:
                 reset_to_root()
                 continue
             if history:
@@ -85,7 +88,7 @@ def run() -> None:
             action = selected["action"]
             if execute_action(action, state):
                 break
-            if action.get("type") == "edit_menu":
+            if action.get("type") in _DATA_MUTATING_ACTIONS:
                 reset_to_root()
 
     clear()
