@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1]
+
+- 修正 CSV 範本流程：下載範本改開啟正確的匯入檔
+- 修正損壞設定檔無法自癒的問題
+- 修正 `hotkey_profile: null` 永久殘留在設定檔的問題
+- 修正 `reset_to_root` 遇到無 name 欄位時的 KeyError
+- 文件補充：安裝步驟、CSV 格式、action type、menu_data.json 結構、快捷鍵 profile
+
 ## [0.7.0]
 
 - 可編輯快捷鍵（上一頁 / 下一頁按鍵自訂）

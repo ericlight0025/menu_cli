@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-APP_VERSION = "0.7.0"
+APP_VERSION = "0.7.1"
 DATA_DIR = BASE_DIR / "data"
 SETTINGS_FILE = DATA_DIR / "menu_settings.json"
 STYLE_FILE = DATA_DIR / "menu_theme.json"
