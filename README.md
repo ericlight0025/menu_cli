@@ -8,6 +8,15 @@
 
 一個可用鍵盤操作的終端機選單工具，支援子選單、主題切換、快捷鍵修改、內建編輯器與外部腳本啟動。
 
+## 安裝與執行
+
+```bash
+pip install -r requirements.txt
+python main.py
+```
+
+Python 3.12 以上。
+
 ## 版本
 
 - `v0.7.0`
@@ -55,6 +64,46 @@
 - `menu_import_template.csv`：目前選單轉出的匯入範本。
 - `menu_export.csv`：目前選單的完整匯出。
 - 匯入前可以先用 `CSV 預覽` 確認內容。
+
+## CSV 格式
+
+欄位：`path`、`name`、`kind`、`action`
+
+| 欄位 | 說明 |
+|------|------|
+| `path` | 父層路徑，以 `/` 分隔，根節點名稱可省略。例：`首頁/工具` 或 `工具` |
+| `name` | 選單項目名稱（必填） |
+| `kind` | `group`（資料夾）或 `action`（執行項目） |
+| `action` | JSON 字串，`kind` 為 `action` 時必填（見下方 action type） |
+
+**範例：**
+
+```csv
+path,name,kind,action
+首頁,工具,group,
+工具,執行腳本,action,"{""type"":""py"",""path"":""tool.py""}"
+工具,開啟網頁,action,"{""type"":""url"",""url"":""https://example.com""}"
+```
+
+## Action Type
+
+| type | 說明 | 額外欄位 |
+|------|------|---------|
+| `exit` | 離開程式 | — |
+| `about` | 顯示功能說明 | — |
+| `theme` | 切換主題 | `"theme": "dark"` / `"light"` / `"neon"` / `"custom"` |
+| `style_file` | 開啟自訂配色檔 | — |
+| `edit_menu` | 內建編輯器編輯選單 | — |
+| `csv_preview` | 預覽 CSV 內容 | — |
+| `csv_import` | 從 CSV 匯入選單 | — |
+| `csv_template` | 下載 CSV 範本 | — |
+| `csv_export` | 匯出選單為 CSV | — |
+| `hotkey_style` | 切換快捷鍵提示樣式 | — |
+| `hotkey_modify` | 修改上一頁 / 下一頁按鍵 | — |
+| `url` | 開啟網址 | `"url": "https://..."` |
+| `py` | 執行 Python 腳本 | `"path": "相對或絕對路徑"` |
+| `bat` | 執行 bat 批次檔 | `"path": "相對或絕對路徑"` |
+| `jar` | 執行 Java jar | `"path": "相對或絕對路徑"` |
 
 ## 檔案
 
