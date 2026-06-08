@@ -32,7 +32,7 @@ def run() -> None:
     def reset_to_root() -> None:
         nonlocal root
         root = load_menu_data()
-        current_path[:] = [root["name"]]
+        current_path[:] = [root.get("name", DEFAULT_MENU_DATA["name"])]
         history.clear()
         future.clear()
 

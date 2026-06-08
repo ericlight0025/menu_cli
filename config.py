@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-APP_VERSION = "0.7.0"
+APP_VERSION = "0.7.1"
 DATA_DIR = BASE_DIR / "data"
 SETTINGS_FILE = DATA_DIR / "menu_settings.json"
 STYLE_FILE = DATA_DIR / "menu_theme.json"
@@ -47,7 +47,7 @@ def save_settings(settings: dict) -> None:
 def load_settings() -> dict:
     on_disk = _read_json(SETTINGS_FILE, {})
     settings = {**DEFAULT_SETTINGS, **on_disk}
-    changed = not SETTINGS_FILE.exists()
+    changed = not on_disk
 
     if settings.get("theme") not in VALID_THEME_NAMES:
         settings["theme"] = DEFAULT_SETTINGS["theme"]
@@ -57,16 +57,16 @@ def load_settings() -> dict:
         changed = True
 
     profile = settings.get("hotkey_profile")
+    preset = HOTKEY_PRESETS.get(profile, HOTKEY_PRESETS["arrows"])
     if not isinstance(settings.get("hotkey_back_keys"), list):
-        preset = HOTKEY_PRESETS.get(profile, HOTKEY_PRESETS["arrows"])
         settings["hotkey_back_keys"] = list(preset["back"])
         changed = True
     if not isinstance(settings.get("hotkey_forward_keys"), list):
-        preset = HOTKEY_PRESETS.get(profile, HOTKEY_PRESETS["arrows"])
         settings["hotkey_forward_keys"] = list(preset["forward"])
         changed = True
 
-    if settings.pop("hotkey_profile", None) is not None:
+    if "hotkey_profile" in settings:
+        settings.pop("hotkey_profile")
         changed = True
 
     if changed:

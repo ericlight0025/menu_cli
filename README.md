@@ -8,9 +8,18 @@
 
 一個可用鍵盤操作的終端機選單工具，支援子選單、主題切換、快捷鍵修改、內建編輯器與外部腳本啟動。
 
+## 安裝與執行
+
+```bash
+pip install -r requirements.txt
+python menu.py
+```
+
+Python 3.12 以上。
+
 ## 版本
 
-- `v0.7.0`
+- `v0.7.1`
 
 ## 技術
 
@@ -23,7 +32,7 @@
 ## 管理與授權
 
 - 版本控制：Git
-- 授權：MIT
+- 授權：Polyform Noncommercial 1.0.0（非商業使用）
 
 ## 功能
 
@@ -48,6 +57,7 @@
 - `v0.4.0`：快捷鍵樣式與快捷鍵切換。
 - `v0.5.0`：功能說明頁、文件與同色調 UI 統一。
 - `v0.7.0`：可編輯快捷鍵、CSV 匯入/匯出與文件整理。
+- `v0.7.1`：bug 修正（CSV 範本流程、損壞設定檔自癒、設定檔 null 殘留、KeyError 防護）、文件補充。
 
 ## CSV 流程
 
@@ -56,14 +66,86 @@
 - `menu_export.csv`：目前選單的完整匯出。
 - 匯入前可以先用 `CSV 預覽` 確認內容。
 
+## CSV 格式
+
+欄位：`path`、`name`、`kind`、`action`
+
+| 欄位 | 說明 |
+|------|------|
+| `path` | 父層路徑，以 `/` 分隔，根節點名稱可省略。例：`首頁/工具` 或 `工具` |
+| `name` | 選單項目名稱（必填） |
+| `kind` | `group`（資料夾）或 `action`（執行項目） |
+| `action` | JSON 字串，`kind` 為 `action` 時必填（見下方 action type） |
+
+**範例：**
+
+```csv
+path,name,kind,action
+首頁,工具,group,
+工具,執行腳本,action,"{""type"":""py"",""path"":""tool.py""}"
+工具,開啟網頁,action,"{""type"":""url"",""url"":""https://example.com""}"
+```
+
+## menu_data.json 格式
+
+選單是巢狀 JSON，每個節點為 `group`（有子項）或 `action`（執行項）：
+
+```json
+{
+  "name": "首頁",
+  "children": [
+    {
+      "name": "工具",
+      "children": [
+        {
+          "name": "執行腳本",
+          "action": { "type": "py", "path": "tool.py" }
+        }
+      ]
+    },
+    {
+      "name": "離開",
+      "action": { "type": "exit" }
+    }
+  ]
+}
+```
+
+- `name`：顯示名稱（必填）
+- `children`：子節點陣列，有此欄位即為 group
+- `action`：動作物件，有此欄位即為 action（type 必填）
+
+## Action Type
+
+| type | 說明 | 額外欄位 |
+|------|------|---------|
+| `exit` | 離開程式 | — |
+| `about` | 顯示功能說明 | — |
+| `theme` | 切換主題 | `"theme": "dark"` / `"light"` / `"neon"` / `"custom"` |
+| `style_file` | 開啟自訂配色檔 | — |
+| `edit_menu` | 內建編輯器編輯選單 | — |
+| `csv_preview` | 預覽 CSV 內容 | — |
+| `csv_import` | 從 CSV 匯入選單 | — |
+| `csv_template` | 下載 CSV 範本 | — |
+| `csv_export` | 匯出選單為 CSV | — |
+| `hotkey_style` | 切換快捷鍵提示樣式 | — |
+| `hotkey_modify` | 修改上一頁 / 下一頁按鍵 | — |
+| `url` | 開啟網址 | `"url": "https://..."` |
+| `py` | 執行 Python 腳本 | `"path": "相對或絕對路徑"` |
+| `bat` | 執行 bat 批次檔 | `"path": "相對或絕對路徑"` |
+| `jar` | 執行 Java jar | `"path": "相對或絕對路徑"` |
+
 ## 檔案
 
-- `menu.py`：主流程。
+- `menu.py`：主流程（入口）。
 - `actions.py`：所有動作處理。
 - `menu_data.py`：選單資料載入與儲存。
+- `csv_import.py`：CSV 匯入 / 匯出 / 範本。
 - `editor.py`：內建選單編輯器。
+- `hotkey_editor.py`：快捷鍵編輯介面。
 - `prompts.py`：Fuzzy 選單與快捷鍵組合。
 - `themes.py`：主題設定。
+- `ui.py`：畫面輸出工具。
 - `state.py`：執行時設定狀態。
 - `config.py`：設定檔位置與讀寫。
 
@@ -78,6 +160,15 @@
 
 ## 操作
 
-- `Alt+←` / `Alt+→`：上一頁 / 下一頁。
+- `Alt+←` / `Alt+→`：上一頁 / 下一頁（預設）。
 - `Ctrl+C`：離開。
 - 編輯選單資料時：`Ctrl+S` 存檔，`Ctrl+C` 取消。
+
+快捷鍵可透過「快速鍵修改」切換，內建四組 profile：
+
+| Profile | 上一頁 | 下一頁 |
+|---------|--------|--------|
+| 方向鍵（預設） | `Alt+←` | `Alt+→` |
+| Ctrl | `Ctrl+B` | `Ctrl+F` |
+| PageUp/Down | `PageUp` | `PageDown` |
+| Vim | `Alt+H` | `Alt+L` |
