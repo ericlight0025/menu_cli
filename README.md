@@ -127,6 +127,15 @@ path,name,kind,action
 
 ## 操作
 
-- `Alt+←` / `Alt+→`：上一頁 / 下一頁。
+- `Alt+←` / `Alt+→`：上一頁 / 下一頁（預設）。
 - `Ctrl+C`：離開。
 - 編輯選單資料時：`Ctrl+S` 存檔，`Ctrl+C` 取消。
+
+快捷鍵可透過「快速鍵修改」切換，內建四組 profile：
+
+| Profile | 上一頁 | 下一頁 |
+|---------|--------|--------|
+| 方向鍵（預設） | `Alt+←` | `Alt+→` |
+| Ctrl | `Ctrl+B` | `Ctrl+F` |
+| PageUp/Down | `PageUp` | `PageDown` |
+| Vim | `Alt+H` | `Alt+L` |
