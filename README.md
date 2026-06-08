@@ -32,7 +32,7 @@ Python 3.12 以上。
 ## 管理與授權
 
 - 版本控制：Git
-- 授權：MIT
+- 授權：Polyform Noncommercial 1.0.0（非商業使用）
 
 ## 功能
 
