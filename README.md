@@ -6,6 +6,10 @@
 ![CSV 匯入頁](docs/screenshots/csv-import.png)
 ![系統設定功能](docs/screenshots/system-settings.png)
 
+## 模組關係圖
+
+![模組關係圖](docs/architecture.svg)
+
 一個可用鍵盤操作的終端機選單工具，支援子選單、主題切換、快捷鍵修改、內建編輯器與外部腳本啟動。
 
 ## 安裝與執行
