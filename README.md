@@ -12,7 +12,7 @@
 
 ```bash
 pip install -r requirements.txt
-python main.py
+python menu.py
 ```
 
 Python 3.12 以上。
@@ -85,6 +85,35 @@ path,name,kind,action
 工具,開啟網頁,action,"{""type"":""url"",""url"":""https://example.com""}"
 ```
 
+## menu_data.json 格式
+
+選單是巢狀 JSON，每個節點為 `group`（有子項）或 `action`（執行項）：
+
+```json
+{
+  "name": "首頁",
+  "children": [
+    {
+      "name": "工具",
+      "children": [
+        {
+          "name": "執行腳本",
+          "action": { "type": "py", "path": "tool.py" }
+        }
+      ]
+    },
+    {
+      "name": "離開",
+      "action": { "type": "exit" }
+    }
+  ]
+}
+```
+
+- `name`：顯示名稱（必填）
+- `children`：子節點陣列，有此欄位即為 group
+- `action`：動作物件，有此欄位即為 action（type 必填）
+
 ## Action Type
 
 | type | 說明 | 額外欄位 |
@@ -107,12 +136,15 @@ path,name,kind,action
 
 ## 檔案
 
-- `menu.py`：主流程。
+- `menu.py`：主流程（入口）。
 - `actions.py`：所有動作處理。
 - `menu_data.py`：選單資料載入與儲存。
+- `csv_import.py`：CSV 匯入 / 匯出 / 範本。
 - `editor.py`：內建選單編輯器。
+- `hotkey_editor.py`：快捷鍵編輯介面。
 - `prompts.py`：Fuzzy 選單與快捷鍵組合。
 - `themes.py`：主題設定。
+- `ui.py`：畫面輸出工具。
 - `state.py`：執行時設定狀態。
 - `config.py`：設定檔位置與讀寫。
 
