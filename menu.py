@@ -40,7 +40,7 @@ def run() -> None:
         current_node = resolve_node(root, current_path)
         breadcrumb = current_path[:]
         children = current_node.get("children", [])
-        if not children:
+        if not children and "children" not in current_node:
             action = current_node["action"]
             if execute_action(action, state):
                 break
@@ -52,6 +52,8 @@ def run() -> None:
             continue
 
         choices = [{"name": _menu_label(child), "value": child} for child in children]
+        if not choices:
+            choices = [{"name": "↩  空選單，返回上一頁（Ctrl+C 離開）", "value": NAV_BACK}]
 
         draw_header(breadcrumb, state.theme_name, state.hotkey_style, state.hotkey_back_keys, state.hotkey_forward_keys)
         result = ask_fuzzy(

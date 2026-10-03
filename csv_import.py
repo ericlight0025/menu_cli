@@ -52,17 +52,21 @@ def read_csv_rows(path: Path | None = None) -> list[dict]:
         return []
     with csv_path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
+        if not reader.fieldnames or not set(CSV_TEMPLATE_HEADERS).issubset(reader.fieldnames):
+            raise ValueError("CSV 必須包含 path、name、kind、action 欄位")
         rows = []
         for row in reader:
+            if None in row:
+                raise ValueError(f"第 {reader.line_num} 行：欄位數超過標題，請檢查引號")
             if not any((value or "").strip() for value in row.values()):
                 continue
             rows.append({key: (value or "").strip() for key, value in row.items()})
         return rows
 
 
-def _split_path(path_value: str) -> list[str]:
+def _split_path(path_value: str, root_name: str = DEFAULT_MENU_DATA["name"]) -> list[str]:
     parts = [part.strip() for part in path_value.replace("\\", "/").split("/") if part.strip()]
-    if parts and parts[0] == DEFAULT_MENU_DATA["name"]:
+    if parts and parts[0] == root_name.strip():
         parts = parts[1:]
     return parts
 
@@ -129,7 +133,7 @@ def _menu_to_csv_rows(node: dict, *, blank_actions: bool = False) -> list[dict]:
             if not isinstance(child, dict):
                 continue
             child_path = "/".join(parent_path)
-            is_group = bool(child.get("children"))
+            is_group = "children" in child
             action = child.get("action") if isinstance(child.get("action"), dict) else None
             rows.append(
                 {
@@ -177,11 +181,12 @@ def import_csv_to_menu(rows: list[dict]) -> tuple[dict, list[str]]:
             continue
 
         try:
-            path_segments = _split_path(path_value)
+            path_segments = _split_path(path_value, root.get("name", "首頁"))
             parent = root if not path_segments else _ensure_path(root, path_segments)
             node = {"name": name}
             if kind == "group":
-                node["children"] = []
+                existing = _find_child(parent, name)
+                node["children"] = deepcopy(existing.get("children", [])) if existing else []
             else:
                 action = _parse_action(action_text)
                 if not action or "type" not in action:

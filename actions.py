@@ -81,7 +81,12 @@ def open_csv_import_file() -> None:
 
 def show_csv_preview() -> None:
     ensure_csv_import_file()
-    rows = read_csv_rows()
+    try:
+        rows = read_csv_rows()
+    except (ValueError, OSError) as exc:
+        _error(f"無法讀取 CSV：{exc}")
+        _pause()
+        return
     if not rows:
         print(f"\n  找不到 CSV 檔：{CSV_IMPORT_FILE}\n")
         _pause()
@@ -92,7 +97,12 @@ def show_csv_preview() -> None:
 
 def import_csv_menu() -> None:
     ensure_csv_import_file()
-    rows = read_csv_rows()
+    try:
+        rows = read_csv_rows()
+    except (ValueError, OSError) as exc:
+        _error(f"無法讀取 CSV：{exc}")
+        _pause()
+        return
     if not rows:
         _error(f"找不到 CSV 檔：{CSV_IMPORT_FILE}")
         _pause()
@@ -109,13 +119,12 @@ def import_csv_menu() -> None:
 
 
 def download_csv_template() -> None:
-    write_csv_template_from_menu()
-    ensure_csv_import_file()
+    template_path = write_csv_template_from_menu()
     if hasattr(os, "startfile"):
-        os.startfile(str(CSV_IMPORT_FILE))
+        os.startfile(str(template_path))
     else:
-        webbrowser.open(CSV_IMPORT_FILE.as_uri())
-    _info(f"已產生 CSV 範本：{CSV_IMPORT_FILE}")
+        webbrowser.open(template_path.as_uri())
+    _info(f"已產生 CSV 範本：{template_path}")
 
 
 def export_current_menu_csv() -> None:
@@ -158,7 +167,7 @@ def show_about() -> None:
         "  • csv / json 標準函式庫\n"
         "  • JSON 設定檔與資料檔\n"
         "  • Git 版本管理\n"
-        "  • MIT 授權\n"
+        "  • Polyform Noncommercial 1.0.0 授權（非商業使用）\n"
         "\n"
         "  【功能】\n"
         "  • 樣式切換：切換整體顏色主題。\n"
