@@ -31,7 +31,7 @@ def _read_json(path: Path, fallback: dict) -> dict:
     if not path.exists():
         return dict(fallback)
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8-sig"))
     except Exception:
         return dict(fallback)
     return data if isinstance(data, dict) else dict(fallback)

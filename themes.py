@@ -106,7 +106,7 @@ def ensure_custom_theme_file() -> None:
 def load_custom_theme() -> dict:
     ensure_custom_theme_file()
     try:
-        data = json.loads(STYLE_FILE.read_text(encoding="utf-8"))
+        data = json.loads(STYLE_FILE.read_text(encoding="utf-8-sig"))
         if not isinstance(data, dict):
             raise ValueError("custom theme must be a JSON object")
     except Exception:

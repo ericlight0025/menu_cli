@@ -6,7 +6,7 @@ from prompt_toolkit.layout import HSplit, Layout, VSplit, Window
 from prompt_toolkit.layout.controls import FormattedTextControl
 from prompt_toolkit.widgets import Frame, TextArea
 
-from prompts import describe_hotkey_keys, normalize_key_list
+from prompts import describe_hotkey_keys, is_valid_key, normalize_key_list
 from state import MenuState
 
 
@@ -41,6 +41,11 @@ def edit_hotkeys(state: MenuState) -> bool:
         forward_keys = normalize_key_list(forward_area.text)
         if not back_keys or not forward_keys:
             message["text"] = "  [ERROR] 上/下頁按鍵不能空白"
+            event.app.invalidate()
+            return
+        invalid_keys = [key for key in back_keys + forward_keys if not is_valid_key(key)]
+        if invalid_keys:
+            message["text"] = f"  [ERROR] 無效的按鍵：{', '.join(invalid_keys)}（例：alt-left、c-b、pageup）"
             event.app.invalidate()
             return
         state.set_hotkey_keys(back_keys, forward_keys)
