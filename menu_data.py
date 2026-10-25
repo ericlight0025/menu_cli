@@ -89,7 +89,7 @@ def _normalize_legacy_actions(node: dict) -> dict:
 def load_menu_data() -> dict:
     _ensure_menu_data_file()
     try:
-        data = json.loads(MENU_DATA_FILE.read_text(encoding="utf-8"))
+        data = json.loads(MENU_DATA_FILE.read_text(encoding="utf-8-sig"))
         if not isinstance(data, dict):
             raise ValueError("menu data must be a JSON object")
         normalized = _normalize_legacy_actions(data)

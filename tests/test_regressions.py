@@ -126,5 +126,54 @@ class NavigationRegressionTests(unittest.TestCase):
             menu.run()
 
 
+class ReviewRegressionTests(unittest.TestCase):
+    def test_is_valid_key(self):
+        import prompts
+
+        for key in ("alt-left", "c-b", "pageup", "alt-h"):
+            self.assertTrue(prompts.is_valid_key(key), key)
+        for key in ("ctrl+b", "abc", "alt-xyz"):
+            self.assertFalse(prompts.is_valid_key(key), key)
+
+    def test_invalid_saved_keys_fall_back_to_default(self):
+        import state
+
+        settings = {"hotkey_back_keys": ["ctrl+b"], "hotkey_forward_keys": ["c-f"]}
+        menu_state = state.MenuState(settings=settings)
+        self.assertEqual(menu_state.hotkey_back_keys, ["alt-left"])
+        self.assertEqual(menu_state.hotkey_forward_keys, ["c-f"])
+
+    def test_settings_with_bom_are_not_reset(self):
+        import json
+        import tempfile
+
+        import config
+
+        with tempfile.TemporaryDirectory() as tmp:
+            settings_file = Path(tmp) / "menu_settings.json"
+            settings = {"theme": "neon", "hotkey_style": "boxed", "hotkey_back_keys": ["c-b"], "hotkey_forward_keys": ["c-f"]}
+            settings_file.write_text("﻿" + json.dumps(settings), encoding="utf-8")
+            with patch.object(config, "SETTINGS_FILE", settings_file), patch.object(config, "DATA_DIR", Path(tmp)):
+                self.assertEqual(config.load_settings(), settings)
+
+    def test_menu_data_with_bom_is_loaded(self):
+        import json
+        import tempfile
+
+        import menu_data
+
+        with tempfile.TemporaryDirectory() as tmp:
+            data_file = Path(tmp) / "menu_data.json"
+            data_file.write_text("﻿" + json.dumps({"name": "Mine", "children": []}), encoding="utf-8")
+            with patch.object(menu_data, "MENU_DATA_FILE", data_file):
+                self.assertEqual(menu_data.load_menu_data()["name"], "Mine")
+
+    def test_action_missing_url_or_path_does_not_crash(self):
+        with patch.object(actions, "_pause"), patch("builtins.print"), patch.object(actions.webbrowser, "open") as opener:
+            self.assertFalse(actions.execute_action({"type": "url"}, None))
+            self.assertFalse(actions.execute_action({"type": "py"}, None))
+        opener.assert_not_called()
+
+
 if __name__ == "__main__":
     unittest.main()

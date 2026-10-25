@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from config import VALID_HOTKEY_STYLES, VALID_THEME_NAMES, load_settings, save_settings
+from prompts import is_valid_key
 
 
 @dataclass
@@ -26,7 +27,7 @@ class MenuState:
         self.settings["hotkey_forward_keys"] = self.hotkey_forward_keys
 
     def _normalize_keys(self, value, fallback: list[str]) -> list[str]:
-        if isinstance(value, list) and all(isinstance(item, str) and item.strip() for item in value):
+        if isinstance(value, list) and all(isinstance(item, str) and is_valid_key(item.strip()) for item in value):
             return [item.strip() for item in value]
         return list(fallback)
 

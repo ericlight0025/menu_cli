@@ -257,12 +257,20 @@ def execute_action(action: dict, state: MenuState) -> bool:
         return False
 
     if action_type == "url":
+        if not action.get("url"):
+            _error("動作缺少 url 欄位")
+            _pause()
+            return False
         webbrowser.open(action["url"])
         _info(f"已開啟：{action['url']}")
         _pause()
         return False
 
     if action_type in {"py", "bat", "jar"}:
+        if not action.get("path"):
+            _error("動作缺少 path 欄位")
+            _pause()
+            return False
         path = _resolve_path(action["path"])
         if not path.exists():
             _error(f"找不到檔案：{path}")

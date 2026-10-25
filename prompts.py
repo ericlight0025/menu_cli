@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from InquirerPy.prompts.fuzzy import FuzzyPrompt
+from prompt_toolkit.key_binding import KeyBindings
 
 NAV_BACK = object()
 NAV_FORWARD = object()
@@ -20,6 +21,16 @@ KEY_LABELS = {
 def describe_hotkey_keys(keys: list[str]) -> str:
     labels = [KEY_LABELS.get(key, key) for key in keys if key]
     return "/".join(labels) if labels else "未設定"
+
+
+def is_valid_key(key: str) -> bool:
+    # InquirerPy 會把 alt-X 轉成 escape + X，這裡用同樣規則交給 prompt_toolkit 驗證。
+    keys = ["escape", key[4:]] if key.startswith("alt-") else [key]
+    try:
+        KeyBindings().add(*keys)(lambda event: None)
+    except ValueError:
+        return False
+    return True
 
 
 def normalize_key_list(text: str) -> list[str]:
